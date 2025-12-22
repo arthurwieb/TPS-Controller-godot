@@ -1,0 +1,99 @@
+[gd_scene load_steps=14 format=3 uid="uid://1gjwhqrto57l"]
+
+[ext_resource type="Script" uid="uid://dvcluwstybcfe" path="res://Player/player.gd" id="1_l8h54"]
+[ext_resource type="Script" uid="uid://crxkybj5ufw2k" path="res://Player/PlayerModel.gd" id="2_4ntmi"]
+[ext_resource type="Script" uid="uid://fan5bmjri7bc" path="res://Player/springarm.tres.gd" id="3_btcbx"]
+[ext_resource type="Script" uid="uid://bawpre0ba5a2u" path="res://Scripts/state_machine.gd" id="4_gwnis"]
+[ext_resource type="Script" uid="uid://di0l3gvneeg7g" path="res://Scripts/idle_player_state.gd" id="5_vtle1"]
+[ext_resource type="Theme" uid="uid://d20cd3jrpo5qt" path="res://ui/theme/debug.tres" id="6_fhl08"]
+[ext_resource type="Script" uid="uid://bhftiwe48f8ii" path="res://Scripts/walking_player_state.gd" id="6_od3ui"]
+[ext_resource type="Script" uid="uid://dyxgbh062m44x" path="res://Scripts/debug.gd" id="7_vtle1"]
+
+[sub_resource type="GDScript" id="GDScript_btcbx"]
+resource_name = "InputGatherer"
+script/source = "extends Node
+class_name InputGatherer
+
+func gather_input() -> InputPackage:
+	var new_input = InputPackage.new()
+	if Input.is_action_just_pressed(\"jump\"):
+		new_input.is_jumping = true
+	
+	new_input.input_direction = Input.get_vector(\"left\", \"right\", \"forward\", \"backward\")
+	return new_input
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l8h54"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4ntmi"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_hvfyp"]
+size = Vector3(0.555, 0.635, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hvfyp"]
+
+[node name="CharacterController" type="CharacterBody3D"]
+script = ExtResource("1_l8h54")
+
+[node name="InputGatherer" type="Node" parent="."]
+script = SubResource("GDScript_btcbx")
+
+[node name="PlayerModel" type="Node3D" parent="."]
+script = ExtResource("2_4ntmi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l8h54")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578857, -0.015630484)
+shape = SubResource("SphereShape3D_4ntmi")
+spring_length = 1.48
+script = ExtResource("3_btcbx")
+max_vertical_angle = 0.9075712110370514
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 6.248537)
+current = true
+
+[node name="PlayerVisual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="PlayerVisual"]
+transform = Transform3D(1, 0, 0, 0, -0.038841218, 0.9992453, 0, -0.9992453, -0.038841218, 0, 0.5493615, -0.17636305)
+mesh = SubResource("PrismMesh_hvfyp")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerVisual"]
+mesh = SubResource("CapsuleMesh_hvfyp")
+skeleton = NodePath("../..")
+
+[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
+script = ExtResource("4_gwnis")
+CURRENT_STATE = NodePath("IdlePlayerState")
+
+[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("5_vtle1")
+
+[node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("6_od3ui")
+
+[node name="UI" type="Control" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 50.0
+
+[node name="DebugContainer" type="PanelContainer" parent="UI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("6_fhl08")
+script = ExtResource("7_vtle1")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/DebugContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugContainer/MarginContainer"]
+layout_mode = 2
