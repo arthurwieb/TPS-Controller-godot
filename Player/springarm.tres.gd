@@ -1,5 +1,5 @@
 extends SpringArm3D
-@export var camera_sensitivity: float = 0.02
+@export var camera_sensitivity: float = 0.01
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var min_vertical_angle: float = -PI/2
 @export_range(0.0, 90.0, 0.1, "radians_as_degrees") var max_vertical_angle: float = -PI/4
 @onready var camera: Camera3D = $Camera3D

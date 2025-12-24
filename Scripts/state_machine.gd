@@ -8,7 +8,9 @@ func _ready():
 			child.transition.connect(on_child_transition)
 		else:
 			push_warning("6778: State não encontrado")
-			
+	if !owner.is_node_ready():
+		await owner.ready
+	if CURRENT_STATE:
 		CURRENT_STATE.enter()
 
 func _process(delta: float) -> void:
