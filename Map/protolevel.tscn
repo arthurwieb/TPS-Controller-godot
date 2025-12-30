@@ -15,29 +15,43 @@ background_mode = 2
 sky = SubResource("Sky_n7vvm")
 
 [node name="Protolevel" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1295261, 0, 0)
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 transform = Transform3D(3.83, 0, 0, 0, 3.83, 0, 0, 0, 3.83, 0, 0, 0)
 use_collision = true
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0803419, 0.16186523, 0.6281389)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -1.0803419, -0.029365387, 0.6281389)
 size = Vector3(0.8696289, 1.3237305, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.04638672)
-size = Vector3(7, 0.037597656, 6)
+size = Vector3(31.73, 0.038, 18.435)
 material = SubResource("StandardMaterial3D_w1xvg")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4720782, -0.016727626, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.47207817, -0.016727624, 0.0643404)
 polygon = PackedVector2Array(0, 0, 0.014560938, 0.24700075, 1.8552568, -0.037522674, 1, 0)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.063778, 0, -0.49858284)
 
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.9999996, 0, 0, 0, 0.9999996, 0, 0, 0, 0.9999996, -0.9483165, 0.46468282, 1.6542325)
+size = Vector3(1, 0.255, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.9999993, 0, 0, 0, 0.9999993, 0, 0, 0, 0.9999993, 4.2531123, 0.3896779, -0.49999964)
+size = Vector3(1.951294, 1, 2)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D5"]
+transform = Transform3D(0.9999983, 0, 0, 0, 0.9999983, 0, 0, 0, 0.9999983, -0.02748084, -0.085552394, 0.012301683)
+operation = 2
+size = Vector3(1.951294, 0.8826904, 1.8862305)
+
 [node name="CharacterBody3D" parent="." instance=ExtResource("1_nnypk")]
-transform = Transform3D(0.99937916, 0, 0.0352309, 0, 1, 0, -0.0352309, 0, 0.99937916, 6.2851443, 1.3205324, -0.06718063)
+transform = Transform3D(0.99937916, 0, 0.0352309, 0, 1, 0, -0.0352309, 0, 0.99937916, 0, 3.3602467, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wtpmb")

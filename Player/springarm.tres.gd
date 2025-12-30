@@ -1,11 +1,10 @@
-extends SpringArm3D
+extends Node3D
 @export var camera_sensitivity: float = 0.01
 @export_range(-90.0, 0.0, 0.1, "radians_as_degrees") var min_vertical_angle: float = -PI/2
 @export_range(0.0, 90.0, 0.1, "radians_as_degrees") var max_vertical_angle: float = -PI/4
-@onready var camera: Camera3D = $Camera3D
+@onready var camera: Camera3D = $EdgeSpringArm/RearSpringArm/Camera3D
 func _ready() -> void:
-	self.spring_length = 7.0
-
+	pass
 func _process(_delta: float) -> void:
 	pass
 	

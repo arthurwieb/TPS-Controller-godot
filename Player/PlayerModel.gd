@@ -4,23 +4,21 @@ extends Node3D
 
 #var velocity: Vector3 = Vector3.ZERO
 const DEFAULT_SPEED:float = 5.0
-@export var SPEED: float = 5.0
-@export var SPRINT_SPEED: float = 8.0
+@export var SPEED: float = 4.0
+@export var SPRINT_SPEED: float = 6.0
+@export var CROUCH_SPEED: float = 2.0
 @export var JUMP_VELOCITY: float = 4.5
 @export var ACCELERATION:float = 2.0
-@export var DECELERATION:float = 0.25
+@export var DECELERATION:float = 0.45
 #var is_on_floor: bool = false
 #var has_moved_this_frame: bool = false
 @onready var player:CharacterBody3D = $".."
-@onready var SpringArm:SpringArm3D = $"../SpringArm3D"
+@onready var SpringArm:SpringArm3D = $"../Camera/EdgeSpringArm/RearSpringArm"
 
 func _ready() -> void:
 	Global.player_model = self
 
 func velocity_by_input(input: InputPackage, delta: float) -> Vector3:
-	print("vel teste:", SPEED)
-	#print('basis', transform.basis)
-	#print('camera-basis', SpringArm.basis)
 	var new_velocity = player.velocity
 	if not player.is_on_floor():
 		new_velocity += player.get_gravity() * delta
@@ -42,3 +40,4 @@ func velocity_by_input(input: InputPackage, delta: float) -> Vector3:
 		new_velocity.y += JUMP_VELOCITY
 	
 	return new_velocity
+	

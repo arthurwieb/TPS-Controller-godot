@@ -1,15 +1,125 @@
-[gd_scene load_steps=16 format=3 uid="uid://1gjwhqrto57l"]
+[gd_scene load_steps=25 format=3 uid="uid://1gjwhqrto57l"]
 
 [ext_resource type="Script" uid="uid://dvcluwstybcfe" path="res://Player/player.gd" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://crxkybj5ufw2k" path="res://Player/PlayerModel.gd" id="2_4ntmi"]
 [ext_resource type="Script" uid="uid://fan5bmjri7bc" path="res://Player/springarm.tres.gd" id="3_btcbx"]
 [ext_resource type="Script" uid="uid://bawpre0ba5a2u" path="res://Scripts/state_machine.gd" id="4_gwnis"]
-[ext_resource type="Script" uid="uid://di0l3gvneeg7g" path="res://Scripts/idle_player_state.gd" id="5_vtle1"]
+[ext_resource type="Script" uid="uid://di0l3gvneeg7g" path="res://Scripts/PlayerState/idle_player_state.gd" id="5_vtle1"]
 [ext_resource type="Theme" uid="uid://d20cd3jrpo5qt" path="res://ui/theme/debug.tres" id="6_fhl08"]
-[ext_resource type="Script" uid="uid://bhftiwe48f8ii" path="res://Scripts/walking_player_state.gd" id="6_od3ui"]
-[ext_resource type="Script" uid="uid://cqu47x0naf772" path="res://Scripts/sprint_player_state.gd" id="7_00tjw"]
+[ext_resource type="Script" uid="uid://bhftiwe48f8ii" path="res://Scripts/PlayerState/walking_player_state.gd" id="6_od3ui"]
+[ext_resource type="Script" uid="uid://cqu47x0naf772" path="res://Scripts/PlayerState/sprint_player_state.gd" id="7_00tjw"]
 [ext_resource type="Script" uid="uid://dyxgbh062m44x" path="res://Scripts/debug.gd" id="7_vtle1"]
-[ext_resource type="Script" uid="uid://c67yqq2ju6qwx" path="res://Scripts/jump_player_state.gd" id="8_x3vf3"]
+[ext_resource type="Script" uid="uid://c67yqq2ju6qwx" path="res://Scripts/PlayerState/jump_player_state.gd" id="8_x3vf3"]
+[ext_resource type="Script" uid="uid://ltu0vk33wcwl" path="res://Scripts/PlayerState/crouch_player_state.gd" id="9_apopc"]
+[ext_resource type="Script" uid="uid://cu5j3jjoekgsa" path="res://Scripts/PlayerState/fall_player_state.gd" id="10_5htga"]
+
+[sub_resource type="Animation" id="Animation_apopc"]
+resource_name = "Crouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.075, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera/EdgeSpringArm/RearSpringArm:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.7578857, -0.015630484), Vector3(0, 0.475, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerVisual:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.65, 0.65, 0.65)]
+}
+
+[sub_resource type="Animation" id="Animation_5htga"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera/EdgeSpringArm/RearSpringArm:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.7578857, -0.015630484)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerVisual:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p5o4e"]
+_data = {
+&"Crouch": SubResource("Animation_apopc"),
+&"RESET": SubResource("Animation_5htga")
+}
 
 [sub_resource type="GDScript" id="GDScript_btcbx"]
 resource_name = "InputGatherer"
@@ -27,15 +137,34 @@ func gather_input() -> InputPackage:
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l8h54"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_4ntmi"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apopc"]
+albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_hvfyp"]
+material = SubResource("StandardMaterial3D_apopc")
 size = Vector3(0.555, 0.635, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5htga"]
+albedo_color = Color(0, 0.58431375, 0, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hvfyp"]
+material = SubResource("StandardMaterial3D_5htga")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_apopc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5htga"]
+margin = 0.01
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4ntmi"]
+radius = 0.1
 
 [node name="CharacterController" type="CharacterBody3D"]
 script = ExtResource("1_l8h54")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_p5o4e")
+}
 
 [node name="InputGatherer" type="Node" parent="."]
 script = SubResource("GDScript_btcbx")
@@ -45,17 +174,6 @@ script = ExtResource("2_4ntmi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_l8h54")
-
-[node name="SpringArm3D" type="SpringArm3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578857, -0.015630484)
-shape = SubResource("SphereShape3D_4ntmi")
-spring_length = 1.48
-script = ExtResource("3_btcbx")
-max_vertical_angle = 0.9075712110370514
-
-[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
-transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 6.248537)
-current = true
 
 [node name="PlayerVisual" type="Node3D" parent="."]
 
@@ -84,6 +202,12 @@ script = ExtResource("7_00tjw")
 [node name="JumpPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("8_x3vf3")
 
+[node name="CrouchPlayerState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("9_apopc")
+
+[node name="FallPlayerState" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("10_5htga")
+
 [node name="UI" type="Control" parent="."]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 3
@@ -105,3 +229,27 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="CrouchRayCast" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7737687, 0)
+shape = SubResource("SphereShape3D_apopc")
+debug_shape_custom_color = Color(0, 1, 0, 1)
+
+[node name="Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("3_btcbx")
+max_vertical_angle = 1.2479104151759457
+
+[node name="EdgeSpringArm" type="SpringArm3D" parent="Camera"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.5, 0, 0)
+shape = SubResource("SphereShape3D_5htga")
+spring_length = 0.5
+
+[node name="RearSpringArm" type="SpringArm3D" parent="Camera/EdgeSpringArm"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.7578857, -0.015630484)
+shape = SubResource("SphereShape3D_4ntmi")
+spring_length = 4.52
+
+[node name="Camera3D" type="Camera3D" parent="Camera/EdgeSpringArm/RearSpringArm"]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0.74390674)
+current = true
