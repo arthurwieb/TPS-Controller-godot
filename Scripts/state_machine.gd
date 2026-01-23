@@ -1,11 +1,15 @@
 class_name StateMachine extends Node
 @export var CURRENT_STATE: State
+@export var player_stats: PlayerStats
+@onready var anim_tree: AnimationTree = $"../PlayerModel/AnimationTree"
+
 var states: Dictionary = {}
 func _ready():
 	for child in get_children():
 		if child is State:
 			states[child.name] = child
 			child.transition.connect(on_child_transition)
+			child.animation_state_change.connect(on_state_machine_animation_state_change)
 		else:
 			push_warning("6778: State não encontrado")
 	if !owner.is_node_ready():
@@ -29,3 +33,7 @@ func on_child_transition(new_state_name:StringName) -> void:
 			CURRENT_STATE = new_state
 	else:
 		push_warning("State does not exists")
+		
+func on_state_machine_animation_state_change(state: String) -> void:
+	print('chamei anim change')
+	anim_tree["parameters/unarmed_movement/transition_request"] = state

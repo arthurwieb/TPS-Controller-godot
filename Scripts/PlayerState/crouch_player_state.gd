@@ -1,15 +1,15 @@
 class_name CrouchPlayerState extends PlayerState
 func enter() -> void:
-	#mudar o tamanho
-	ANIMPLAYER.play("Crouch")
+	#ANIMPLAYER.play("Crouch")
+	animation_state_change.emit("walk")
 
 func exit() -> void:
-	
-	ANIMPLAYER.play_backwards("Crouch")
+	#ANIMPLAYER.play_backwards("Crouch")
+	pass
 
 func update(delta:float) -> void:
 	PLAYER.update_gravity(delta)
-	PLAYER.velocity_by_input_2(PLAYERMODEL.CROUCH_SPEED, PLAYERMODEL.ACCELERATION, PLAYERMODEL.DECELERATION)
+	PLAYER.velocity_by_input_2(PLAYERSTATS.CROUCH_SPEED, PLAYERSTATS.ACCELERATION, PLAYERSTATS.DECELERATION, delta)
 	PLAYER.update_velocity()
 	if Input.is_action_just_released("crouch"):
 		uncrouch()

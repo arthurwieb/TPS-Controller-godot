@@ -1,10 +1,11 @@
 class_name WalkPlayerState extends PlayerState
 func enter() -> void:
-	PLAYERMODEL.SPEED = PLAYERMODEL.DEFAULT_SPEED
+	animation_state_change.emit("walk")
+	PLAYERSTATS.SPEED = PLAYERSTATS.DEFAULT_SPEED
 
 func update(delta:float) -> void:
 	PLAYER.update_gravity(delta)
-	PLAYER.velocity_by_input_2(PLAYERMODEL.SPEED, PLAYERMODEL.ACCELERATION, PLAYERMODEL.DECELERATION)
+	PLAYER.velocity_by_input_2(PLAYERSTATS.SPEED, PLAYERSTATS.ACCELERATION, PLAYERSTATS.DECELERATION, delta)
 	PLAYER.update_velocity()
 	
 	if PLAYER.velocity.length() == 0.0:

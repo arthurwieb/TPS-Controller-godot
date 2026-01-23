@@ -1,6 +1,7 @@
 class_name FallPlayerState extends PlayerState
 
 func enter() -> void:
+	animation_state_change.emit("fall")
 	pass
 
 func exit() -> void:
@@ -8,7 +9,7 @@ func exit() -> void:
 
 func update(delta:float) -> void:
 	PLAYER.update_gravity(delta)
-	PLAYER.velocity_by_input_2(PLAYERMODEL.SPEED, PLAYERMODEL.ACCELERATION, PLAYERMODEL.DECELERATION)
+	PLAYER.velocity_by_input_2(PLAYERSTATS.SPEED, PLAYERSTATS.ACCELERATION, PLAYERSTATS.DECELERATION, delta)
 	PLAYER.update_velocity()
 	if PLAYER.is_on_floor():
 		transition.emit("IdlePlayerState")

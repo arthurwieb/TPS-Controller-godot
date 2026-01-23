@@ -1,9 +1,10 @@
 class_name Player extends CharacterBody3D
 
 @onready var InputGatherer: Node = $InputGatherer
-@onready var Model: Node3D = $PlayerModel
 @onready var Camera: Node3D = $Camera
 @onready var CROUCH_CAST:ShapeCast3D = $CrouchRayCast
+@export var player_model:Node3D
+var camera_T:float
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -17,21 +18,46 @@ func _physics_process(delta):
 	#print(velocity)
 	move_and_slide()
 	
-func velocity_by_input_2(speed: float, acceleration: float, deceleration: float) -> void:
-	#print("velocity_by_input2 vel teste:", speed)
-	#função teste, porque em cada state nós vamos poder usar as variavies de accel, speed, decel conforme o state
-	var input_dir = Input.get_vector("left","right","forward","backward")		
-	var direction := (Camera.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction: #em teste ainda, mas parece bom
-		velocity.x = lerp(direction.x, direction.x * speed, acceleration)
-		velocity.z = lerp(direction.z, direction.z * speed, acceleration)
+func velocity_by_input_2(speed: float, acceleration: float, deceleration: float, delta: float) -> void:
+	var input_dir = Input.get_vector("left", "right", "forward", "backward")
+
+	# Get the camera's forward and right vectors, but kill the vertical (Y) part
+	var forward = Camera.global_transform.basis.z
+	var right = Camera.global_transform.basis.x
+
+	forward.y = 0
+	right.y = 0
+
+	# Combine them based on input
+	var direction = (right * input_dir.x + forward * input_dir.y).normalized()
+
+	if direction != Vector3.ZERO:
+		# Create a target velocity vector
+		var target_velocity = direction * speed
+		# Calculate horizontal velocity only (ignoring current Y/gravity)
+		var horizontal_vel = Vector3(velocity.x, 0, velocity.z)
+		horizontal_vel = horizontal_vel.lerp(target_velocity, acceleration * delta)
+
+		velocity.x = horizontal_vel.x
+		velocity.z = horizontal_vel.z
+		
+		rotate_armature(Vector2(direction.x, direction.z), delta)
 	else:
-		velocity.x = move_toward(velocity.x, 0, deceleration)
-		velocity.z = move_toward(velocity.z, 0, deceleration)
+		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
+		velocity.z = move_toward(velocity.z, 0, deceleration * delta)
 
 func update_gravity(delta) -> void:
 	#velocity.y -= self.get_gravity() * delta
-	velocity.y -= 9.8 * delta
+	velocity.y -= 9.8 * delta # dar um jeito de pegar a gravity do projeto
 
 func update_velocity() -> void:
 	move_and_slide()
+
+#11:07 min mark
+func rotate_armature(angle: Vector2, delta, _offset: float = 0) -> void:
+	var new_angle: float = atan2(angle.x, angle.y)	
+	player_model.rotation.y = lerp_angle(
+		player_model.rotation.y,
+		new_angle,
+		20*delta
+	)

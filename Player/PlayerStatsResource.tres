@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PlayerStats" load_steps=2 format=3 uid="uid://ttuucokqgck2"]
+
+[ext_resource type="Script" uid="uid://75oej4646lok" path="res://Player/PlayerStats.gd" id="1_wjbw8"]
+
+[resource]
+script = ExtResource("1_wjbw8")
+ACCELERATION = 19.0
+DECELERATION = 15.45
+metadata/_custom_type_script = "uid://75oej4646lok"

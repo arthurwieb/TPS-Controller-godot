@@ -1,5 +1,6 @@
 class_name State extends Node
 signal transition(new_state_name:String)
+signal animation_state_change(state:String)
 func enter() -> void:
 	pass
 
