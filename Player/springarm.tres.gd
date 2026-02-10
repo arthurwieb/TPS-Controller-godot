@@ -25,7 +25,8 @@ func _unhandled_input(event: InputEvent):
 		
 		self.rotation.y -= event.relative.x * camera_sensitivity
 		self.rotation.y = wrapf(self.rotation.y, 0.0, TAU)
-		mouse_rotated.emit(event)
+		# main error
+		#mouse_rotated.emit(event)
 
 func swap_camera_alignment():
 	default_spring_arm_length = -default_spring_arm_length

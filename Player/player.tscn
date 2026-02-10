@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://1gjwhqrto57l"]
+[gd_scene format=3 uid="uid://1gjwhqrto57l"]
 
 [ext_resource type="Script" uid="uid://dvcluwstybcfe" path="res://Player/player.gd" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://crxkybj5ufw2k" path="res://Player/PlayerModel.gd" id="2_4ntmi"]
@@ -75,50 +75,47 @@ radius = 0.1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gu6f8"]
 
-[node name="CharacterController" type="CharacterBody3D" node_paths=PackedStringArray("player_model")]
+[node name="CharacterController" type="CharacterBody3D" unique_id=1441416732 node_paths=PackedStringArray("player_model")]
 collision_layer = 2
 script = ExtResource("1_l8h54")
 player_model = NodePath("PlayerModel")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_p5o4e")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1162915776]
+libraries/ = SubResource("AnimationLibrary_p5o4e")
 
-[node name="InputGatherer" type="Node" parent="."]
+[node name="InputGatherer" type="Node" parent="." unique_id=264096582]
 script = SubResource("GDScript_btcbx")
 
-[node name="PlayerModel" parent="." instance=ExtResource("14_gu6f8")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+[node name="PlayerModel" parent="." unique_id=651938798 instance=ExtResource("14_gu6f8")]
 
-[node name="PlayerModelDeletar" type="Node3D" parent="."]
+[node name="PlayerModelDeletar" type="Node3D" parent="." unique_id=1350061821]
 script = ExtResource("2_4ntmi")
 
-[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
+[node name="PlayerStateMachine" type="Node" parent="." unique_id=1210939881 node_paths=PackedStringArray("CURRENT_STATE")]
 script = ExtResource("4_gwnis")
 CURRENT_STATE = NodePath("IdlePlayerState")
 player_stats = ExtResource("4_p5o4e")
 
-[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine" unique_id=1421721924]
 script = ExtResource("5_vtle1")
 
-[node name="WalkPlayerState" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("PLAYERMODEL")]
+[node name="WalkPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1945651102 node_paths=PackedStringArray("PLAYERMODEL")]
 script = ExtResource("6_od3ui")
 PLAYERMODEL = NodePath("../../PlayerModel")
 
-[node name="SprintPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="SprintPlayerState" type="Node" parent="PlayerStateMachine" unique_id=510466913]
 script = ExtResource("7_00tjw")
 
-[node name="JumpPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="JumpPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1572238262]
 script = ExtResource("8_x3vf3")
 
-[node name="CrouchPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="CrouchPlayerState" type="Node" parent="PlayerStateMachine" unique_id=669898603]
 script = ExtResource("9_apopc")
 
-[node name="FallPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="FallPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1062246076]
 script = ExtResource("10_5htga")
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." unique_id=305302024]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 3
 anchors_preset = 0
@@ -127,46 +124,46 @@ offset_top = 10.0
 offset_right = 210.0
 offset_bottom = 50.0
 
-[node name="DebugContainer" type="PanelContainer" parent="UI"]
+[node name="DebugContainer" type="PanelContainer" parent="UI" unique_id=619315676]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("6_fhl08")
 script = ExtResource("7_vtle1")
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/DebugContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/DebugContainer" unique_id=387535635]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugContainer/MarginContainer" unique_id=728292089]
 layout_mode = 2
 
-[node name="CrouchRayCast" type="ShapeCast3D" parent="."]
+[node name="CrouchRayCast" type="ShapeCast3D" parent="." unique_id=652147423]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7737687, 0)
 shape = SubResource("SphereShape3D_apopc")
 debug_shape_custom_color = Color(0, 1, 0, 1)
 
-[node name="Camera" type="Node3D" parent="." node_paths=PackedStringArray("rearSpringArm", "edgeSpringArm")]
+[node name="Camera" type="Node3D" parent="." unique_id=288822527 node_paths=PackedStringArray("rearSpringArm", "edgeSpringArm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6084692, 0)
 script = ExtResource("3_btcbx")
 rearSpringArm = NodePath("EdgeSpringArm/RearSpringArm")
 edgeSpringArm = NodePath("EdgeSpringArm")
 max_vertical_angle = 1.2479104151759457
 
-[node name="EdgeSpringArm" type="SpringArm3D" parent="Camera"]
+[node name="EdgeSpringArm" type="SpringArm3D" parent="Camera" unique_id=400790310]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 shape = SubResource("SphereShape3D_5htga")
 spring_length = 0.0
 
-[node name="RearSpringArm" type="SpringArm3D" parent="Camera/EdgeSpringArm"]
+[node name="RearSpringArm" type="SpringArm3D" parent="Camera/EdgeSpringArm" unique_id=1661911941]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.7578857, -0.015630484)
 shape = SubResource("SphereShape3D_4ntmi")
 spring_length = 2.0
 
-[node name="Camera3D" type="Camera3D" parent="Camera/EdgeSpringArm/RearSpringArm"]
+[node name="Camera3D" type="Camera3D" parent="Camera/EdgeSpringArm/RearSpringArm" unique_id=1893549395]
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
 current = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=839812549]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.995, 0)
 shape = SubResource("CapsuleShape3D_gu6f8")
 

@@ -19,7 +19,7 @@ func _ready():
 
 func _process(delta: float) -> void:
 	CURRENT_STATE.update(delta)
-	Global.debug.add_debug_prop("Current State", CURRENT_STATE.name, 2)
+	Global.debug.add_debug_prop("Current State", CURRENT_STATE.name, 0)
 	
 func _physics_process(delta: float) -> void:
 	CURRENT_STATE.physics_update(delta)
@@ -37,3 +37,7 @@ func on_child_transition(new_state_name:StringName) -> void:
 func on_state_machine_animation_state_change(state: String) -> void:
 	print('chamei anim change')
 	anim_tree["parameters/unarmed_movement/transition_request"] = state
+	
+	#talvez é uma gambiarra, vamos ver como fica no futuro, o melhor teria sido arrumar a animação em si
+	if state == 'jump':
+		anim_tree["parameters/TimeSeek/seek_request"] = 0.15

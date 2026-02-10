@@ -5,7 +5,7 @@ var fps:String
 func _ready() -> void:
 	Global.debug = self	
 	visible = true
-	add_debug_prop("FPS", fps, 1)
+	#add_debug_prop("FPS", fps, 1)
 
 func _process(delta: float) -> void:
 	fps = "%.2f" % (1.0/delta)

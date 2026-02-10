@@ -11,11 +11,16 @@ func _ready():
 	Global.player = self
 	CROUCH_CAST.add_exception($".")
 
-func _physics_process(delta):
-	Global.debug.add_debug_prop("Velocity", velocity, 3)
+func _physics_process(_delta):
+	Global.debug.add_debug_prop("Velocity", velocity, 1)
 	#var input = InputGatherer.gather_input()
 	#velocity = Model.velocity_by_input(input, delta)
 	#print(velocity)
+	if Input.is_action_pressed("release_mouse"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	move_and_slide()
 	
 func velocity_by_input_2(speed: float, acceleration: float, deceleration: float, delta: float) -> void:
