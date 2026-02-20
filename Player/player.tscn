@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://1gjwhqrto57l"]
 
 [ext_resource type="Script" uid="uid://dvcluwstybcfe" path="res://Player/player.gd" id="1_l8h54"]
-[ext_resource type="Script" uid="uid://crxkybj5ufw2k" path="res://Player/PlayerModel.gd" id="2_4ntmi"]
+[ext_resource type="PackedScene" uid="uid://d1bjpc1l037n6" path="res://Player/player_model_unique.tscn" id="2_p5o4e"]
 [ext_resource type="Script" uid="uid://fan5bmjri7bc" path="res://Player/springarm.tres.gd" id="3_btcbx"]
 [ext_resource type="Script" uid="uid://bawpre0ba5a2u" path="res://Scripts/state_machine.gd" id="4_gwnis"]
 [ext_resource type="Resource" uid="uid://ttuucokqgck2" path="res://Player/PlayerStatsResource.tres" id="4_p5o4e"]
@@ -13,43 +13,6 @@
 [ext_resource type="Script" uid="uid://c67yqq2ju6qwx" path="res://Scripts/PlayerState/jump_player_state.gd" id="8_x3vf3"]
 [ext_resource type="Script" uid="uid://ltu0vk33wcwl" path="res://Scripts/PlayerState/crouch_player_state.gd" id="9_apopc"]
 [ext_resource type="Script" uid="uid://cu5j3jjoekgsa" path="res://Scripts/PlayerState/fall_player_state.gd" id="10_5htga"]
-[ext_resource type="PackedScene" uid="uid://4jrvyn1lvlsb" path="res://Assets/player_model/player_model.tscn" id="14_gu6f8"]
-
-[sub_resource type="Animation" id="Animation_apopc"]
-resource_name = "Crouch"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera/EdgeSpringArm/RearSpringArm:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0.7578857, -0.015630484), Vector3(0, 0.475, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_5htga"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera/EdgeSpringArm/RearSpringArm:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.7578857, -0.015630484)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_p5o4e"]
-_data = {
-&"Crouch": SubResource("Animation_apopc"),
-&"RESET": SubResource("Animation_5htga")
-}
 
 [sub_resource type="GDScript" id="GDScript_btcbx"]
 resource_name = "InputGatherer"
@@ -65,6 +28,34 @@ func gather_input() -> InputPackage:
 	return new_input
 "
 
+[sub_resource type="GDScript" id="GDScript_p5o4e"]
+script/source = "class_name LandingPlayerState extends PlayerState
+var speed_at_entry: float = 0.0
+func enter():
+	animation_state_change.emit(\"fall_to_idle\")
+	# Create a 2D vector from the horizontal axes (X and Z)
+	var horizontal_velocity = Vector2(PLAYER.velocity.x, PLAYER.velocity.z)
+	# The .length() gives us the actual magnitude of our movement on the floor
+	speed_at_entry = horizontal_velocity.length()
+	
+	# Safety check: ensure the air speed isn't lower than base movement
+	speed_at_entry = max(speed_at_entry, PLAYERSTATS.SPEED)
+	print(horizontal_velocity,speed_at_entry)
+	
+
+func exit():
+	pass
+func update(delta):	
+	PLAYER.update_gravity(delta)
+	PLAYER.velocity_by_input_2(speed_at_entry, PLAYERSTATS.ACCELERATION, PLAYERSTATS.DECELERATION, delta)
+	PLAYER.update_velocity()
+	if PLAYER.velocity.length() > 0.0 && PLAYER.is_on_floor():
+		transition.emit(\"WalkPlayerState\")
+
+func physics_update(delta:float) -> void:
+	pass
+"
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_apopc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5htga"]
@@ -78,18 +69,13 @@ radius = 0.1
 [node name="CharacterController" type="CharacterBody3D" unique_id=1441416732 node_paths=PackedStringArray("player_model")]
 collision_layer = 2
 script = ExtResource("1_l8h54")
-player_model = NodePath("PlayerModel")
+player_model = NodePath("PlayerModelUnique")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1162915776]
-libraries/ = SubResource("AnimationLibrary_p5o4e")
+[node name="PlayerModelUnique" parent="." unique_id=432576877 instance=ExtResource("2_p5o4e")]
+unique_name_in_owner = true
 
 [node name="InputGatherer" type="Node" parent="." unique_id=264096582]
 script = SubResource("GDScript_btcbx")
-
-[node name="PlayerModel" parent="." unique_id=651938798 instance=ExtResource("14_gu6f8")]
-
-[node name="PlayerModelDeletar" type="Node3D" parent="." unique_id=1350061821]
-script = ExtResource("2_4ntmi")
 
 [node name="PlayerStateMachine" type="Node" parent="." unique_id=1210939881 node_paths=PackedStringArray("CURRENT_STATE")]
 script = ExtResource("4_gwnis")
@@ -99,9 +85,8 @@ player_stats = ExtResource("4_p5o4e")
 [node name="IdlePlayerState" type="Node" parent="PlayerStateMachine" unique_id=1421721924]
 script = ExtResource("5_vtle1")
 
-[node name="WalkPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1945651102 node_paths=PackedStringArray("PLAYERMODEL")]
+[node name="WalkPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1945651102]
 script = ExtResource("6_od3ui")
-PLAYERMODEL = NodePath("../../PlayerModel")
 
 [node name="SprintPlayerState" type="Node" parent="PlayerStateMachine" unique_id=510466913]
 script = ExtResource("7_00tjw")
@@ -114,6 +99,9 @@ script = ExtResource("9_apopc")
 
 [node name="FallPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1062246076]
 script = ExtResource("10_5htga")
+
+[node name="LandingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1620642555]
+script = SubResource("GDScript_p5o4e")
 
 [node name="UI" type="Control" parent="." unique_id=305302024]
 custom_minimum_size = Vector2(200, 0)
@@ -166,5 +154,3 @@ current = true
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=839812549]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.995, 0)
 shape = SubResource("CapsuleShape3D_gu6f8")
-
-[connection signal="mouse_rotated" from="Camera" to="PlayerModel" method="_on_camera_mouse_rotated"]

@@ -1,13 +1,14 @@
 class_name StateMachine extends Node
 @export var CURRENT_STATE: State
 @export var player_stats: PlayerStats
-@onready var anim_tree: AnimationTree = $"../PlayerModel/AnimationTree"
+@onready var anim_tree: AnimationTree = $"../PlayerModelUnique/AnimationTree"
 
 var states: Dictionary = {}
 func _ready():
 	for child in get_children():
 		if child is State:
 			states[child.name] = child
+			#child.finished.connect()
 			child.transition.connect(on_child_transition)
 			child.animation_state_change.connect(on_state_machine_animation_state_change)
 		else:
@@ -26,6 +27,7 @@ func _physics_process(delta: float) -> void:
 
 func on_child_transition(new_state_name:StringName) -> void:
 	var new_state = states.get(new_state_name)
+	print("transição: ",new_state)
 	if new_state != null:
 		if new_state != CURRENT_STATE:
 			CURRENT_STATE.exit()
@@ -37,7 +39,3 @@ func on_child_transition(new_state_name:StringName) -> void:
 func on_state_machine_animation_state_change(state: String) -> void:
 	print('chamei anim change')
 	anim_tree["parameters/unarmed_movement/transition_request"] = state
-	
-	#talvez é uma gambiarra, vamos ver como fica no futuro, o melhor teria sido arrumar a animação em si
-	if state == 'jump':
-		anim_tree["parameters/TimeSeek/seek_request"] = 0.15

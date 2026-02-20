@@ -1,0 +1,97 @@
+[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://w6isxytcvecw"]
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_0waun"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fny71"]
+animation = &"crouch_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_482u1"]
+animation = &"crouch_to_stand"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tf0lr"]
+animation = &"crouch_walk"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_g2ttt"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xscal"]
+animation = &"falling"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s8kok"]
+animation = &"fall_to_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0waun"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yve4r"]
+animation = &"jump_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i62ry"]
+animation = &"sprint"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_dbkps"]
+sync = true
+xfade_time = 0.2
+input_0/name = "jump"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "sprint"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+input_2/name = "walk"
+input_2/auto_advance = false
+input_2/break_loop_at_end = false
+input_2/reset = true
+input_3/name = "fall"
+input_3/auto_advance = false
+input_3/break_loop_at_end = false
+input_3/reset = true
+input_4/name = "idle"
+input_4/auto_advance = false
+input_4/break_loop_at_end = false
+input_4/reset = true
+input_5/name = "crouch"
+input_5/auto_advance = false
+input_5/break_loop_at_end = false
+input_5/reset = true
+input_6/name = "crouch_walk"
+input_6/auto_advance = false
+input_6/break_loop_at_end = false
+input_6/reset = true
+input_7/name = "crouch_to_stand"
+input_7/auto_advance = false
+input_7/break_loop_at_end = false
+input_7/reset = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_say8e"]
+animation = &"walk"
+
+[resource]
+graph_offset = Vector2(-313.7025, -77.62219)
+nodes/output/position = Vector2(3160, -880)
+nodes/fall/node = SubResource("AnimationNodeAnimation_xscal")
+nodes/fall/position = Vector2(400, -300)
+nodes/unarmed_movement/node = SubResource("AnimationNodeTransition_dbkps")
+nodes/unarmed_movement/position = Vector2(2500, -900)
+nodes/jump/node = SubResource("AnimationNodeAnimation_yve4r")
+nodes/jump/position = Vector2(260, -980)
+nodes/sprint/node = SubResource("AnimationNodeAnimation_i62ry")
+nodes/sprint/position = Vector2(540, -580)
+nodes/walk/node = SubResource("AnimationNodeAnimation_say8e")
+nodes/walk/position = Vector2(700, -420)
+nodes/idle/node = SubResource("AnimationNodeAnimation_0waun")
+nodes/idle/position = Vector2(560, -20)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_0waun")
+nodes/TimeSeek/position = Vector2(520, -940)
+nodes/crouch/node = SubResource("AnimationNodeAnimation_fny71")
+nodes/crouch/position = Vector2(840, 80)
+nodes/crouch_walk/node = SubResource("AnimationNodeAnimation_tf0lr")
+nodes/crouch_walk/position = Vector2(1120, 200)
+nodes/crouch_to_stand/node = SubResource("AnimationNodeAnimation_482u1")
+nodes/crouch_to_stand/position = Vector2(1660, 20)
+nodes/fall_to_idle/node = SubResource("AnimationNodeAnimation_s8kok")
+nodes/fall_to_idle/position = Vector2(2740, -600)
+nodes/exit_fall/node = SubResource("AnimationNodeOneShot_g2ttt")
+nodes/exit_fall/position = Vector2(2940, -820)
+node_connections = [&"output", 0, &"exit_fall", &"unarmed_movement", 0, &"TimeSeek", &"unarmed_movement", 1, &"sprint", &"unarmed_movement", 2, &"walk", &"unarmed_movement", 3, &"fall", &"unarmed_movement", 4, &"idle", &"unarmed_movement", 5, &"crouch", &"unarmed_movement", 6, &"crouch_walk", &"unarmed_movement", 7, &"crouch_to_stand", &"TimeSeek", 0, &"jump", &"exit_fall", 0, &"unarmed_movement", &"exit_fall", 1, &"fall_to_idle"]
