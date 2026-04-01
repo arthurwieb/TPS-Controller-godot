@@ -1,6 +1,6 @@
 class_name IdlePlayerState extends PlayerState
 func enter() -> void:
-	animation_state_change.emit("idle")
+	#animation_state_change.emit("idle")
 	pass
 	
 func update(delta:float) -> void:

@@ -10,7 +10,7 @@ func _ready():
 			states[child.name] = child
 			#child.finished.connect()
 			child.transition.connect(on_child_transition)
-			child.animation_state_change.connect(on_state_machine_animation_state_change)
+			#child.animation_state_change.connect(on_state_machine_animation_state_change)
 		else:
 			push_warning("6778: State não encontrado")
 	if !owner.is_node_ready():
@@ -36,6 +36,6 @@ func on_child_transition(new_state_name:StringName) -> void:
 	else:
 		push_warning("State does not exists")
 		
-func on_state_machine_animation_state_change(state: String) -> void:
-	print('chamei anim change')
-	anim_tree["parameters/unarmed_movement/transition_request"] = state
+#func on_state_machine_animation_state_change(state: String) -> void:
+	#print('chamei anim change')
+	#anim_tree["parameters/unarmed_movement/transition_request"] = state

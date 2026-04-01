@@ -1,11 +1,12 @@
 class_name CrouchPlayerState extends PlayerState
 func enter() -> void:
 	#ANIMPLAYER.play("Crouch")
-	animation_state_change.emit("crouch")
+	#animation_state_change.emit("crouch")
+	pass
 
 func exit() -> void:
 	print('sai')
-	animation_state_change.emit("crouch_to_stand")
+	#animation_state_change.emit("crouch_to_stand")
 	pass
 
 func update(delta:float) -> void:	
@@ -15,9 +16,11 @@ func update(delta:float) -> void:
 	#if Input.is_action_pressed("forward") && PLAYER.is_on_floor():		
 		#transition.emit("CrouchWalkPlayerState")
 	if PLAYER.velocity.length() > 0.0 && PLAYER.is_on_floor():
-		animation_state_change.emit("crouch_walk")
+		#animation_state_change.emit("crouch_walk")
+		pass
 	else:
-		animation_state_change.emit("crouch")
+		#animation_state_change.emit("crouch")
+		pass
 	
 	if Input.is_action_just_released("crouch"):
 		uncrouch()

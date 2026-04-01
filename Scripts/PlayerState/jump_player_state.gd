@@ -2,7 +2,7 @@ class_name JumpPlayerState extends PlayerState
 var speed_at_entry: float = 0.0
 
 func enter() -> void:
-	animation_state_change.emit("jump")
+	#animation_state_change.emit("jump")
 	PLAYER.velocity.y += 5
 	# Create a 2D vector from the horizontal axes (X and Z)
 	var horizontal_velocity = Vector2(PLAYER.velocity.x, PLAYER.velocity.z)

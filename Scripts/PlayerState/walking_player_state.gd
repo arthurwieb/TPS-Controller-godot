@@ -1,6 +1,6 @@
 class_name WalkPlayerState extends PlayerState
 func enter() -> void:
-	animation_state_change.emit("walk")
+	#animation_state_change.emit("walk")
 	PLAYERSTATS.SPEED = PLAYERSTATS.DEFAULT_SPEED
 
 func update(delta:float) -> void:

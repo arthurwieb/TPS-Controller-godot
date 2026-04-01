@@ -3,7 +3,7 @@ class_name SprintPlayerState extends PlayerState
 func enter() -> void:
 	#AnimPlayer.play
 	#PLAYERMODEL.SPEED = PLAYERMODEL.SPRINT_SPEED
-	animation_state_change.emit("sprint")
+	#animation_state_change.emit("sprint")
 	print('entrei no sprint')
 	
 func update(delta:float) -> void:
